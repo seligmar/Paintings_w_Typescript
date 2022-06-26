@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Paintings from './paintings/paintings';
+import Paintings from './paintings/Paintings';
 
 function App () {
   return (
