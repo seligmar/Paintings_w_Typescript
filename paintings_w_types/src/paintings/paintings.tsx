@@ -17,17 +17,20 @@ export default function Paintings () {
     if (!arr[0]) return
     var result: any[] = []
     const len = allPaintings.length
-    for (let i = 0; i < 12; i++) {
-      var x = Math.floor(Math.random() * len)
-      var painting = allPaintings[x]
-      if (result.includes(painting)) {
-        break
+    let i = 0
+    buildPaintingList(result, len, 0)
+    function buildPaintingList (result: any[], len: number, i: number) {
+      for (i; i < 10; i++) {
+        var x = Math.floor(Math.random() * len)
+        var painting = allPaintings[x]
+        if (result.includes(painting) && i < 10) {
+          buildPaintingList(result, len, i)
+        }
+        painting.flipped = false
+        painting.disabled = false
+        result.push(painting)
       }
-      painting.flipped = false
-      painting.disabled = false
-      result.push(painting)
     }
-
     var resultCopy = result
     result.push(...resultCopy)
     shuffleArray(result)

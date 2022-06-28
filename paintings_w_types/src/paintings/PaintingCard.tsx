@@ -8,7 +8,7 @@ export default function PaintingCard (
 ) {
   var paintingForCard = painting.painting
 
-  console.log(paintingForCard)
+  // console.log(paintingForCard)
 
   // function newFunction () {
   //   setCard(paintingForCard.id)

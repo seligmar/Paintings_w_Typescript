@@ -9,7 +9,6 @@
 }
 
 .card-container {
-  /* height: 55vh; */
   height: 300px;
   overflow: scroll;
 }
