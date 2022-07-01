@@ -6,7 +6,7 @@ import './Painting.css'
 export default function Paintings () {
   const [allPaintings, setPaintings] = useState<any[]>([])
   const [paintingsToPlay, setPaintingsToPlay] = useState<any[]>([])
-  const [activeCard, setActiveCard] = useState<any>()
+  const [activeCard, setActiveCard] = useState<any>(undefined)
 
   var importedPaintings: any[] = paintings
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function Paintings () {
     if (!arr[0]) return
     var result: any[] = []
     const len = allPaintings.length
-    const i = 0
+    // const i = 0
     buildPaintingList(result, len, 0)
     function buildPaintingList (result: any[], len: number, i: number) {
       for (i; i < 10; i++) {
@@ -29,11 +29,14 @@ export default function Paintings () {
         painting.flipped = false
         painting.disabled = false
         result.push(painting)
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
         var paintingCopy = Object.assign({}, painting)
         paintingCopy.id = painting.id + '-copy'
         result.push(paintingCopy)
       }
     }
+
+    //result = result[]
     // var resultCopy = [...result]
     //  resultCopy.forEach(painting => painting.id + '-copy')
     //  result.push(...resultCopy)
@@ -54,8 +57,6 @@ export default function Paintings () {
 
   function setCard (e: any, painting: any) {
     e.preventDefault()
-
-    console.log(painting)
     // logic --> check if there is an active card
     // if yes, check if the newly selected card id matches the new card id
     // if yes, set the card class to
@@ -69,7 +70,17 @@ export default function Paintings () {
     }
 
     if (activeCard) {
-      if (activeCard.id !== painting.id) {
+      const activeIndex = activeCard.id.indexOf('-')
+      const paintingIndex = painting.id.indexOf('-')
+      if (activeIndex > 0 && paintingIndex > 0) {
+        activeCard.flipped = false
+        painting.flipped = false
+        setActiveCard(undefined)
+      }
+      if (
+        activeCard.id.includes(painting) ||
+        painting.id.includes(activeCard)
+      ) {
         activeCard.flipped = false
         painting.flipped = false
         setActiveCard(undefined)
@@ -81,6 +92,7 @@ export default function Paintings () {
       }
     }
   }
+  // }
 
   if (paintingsToPlay.length < 1) getRandom(allPaintings)
 
