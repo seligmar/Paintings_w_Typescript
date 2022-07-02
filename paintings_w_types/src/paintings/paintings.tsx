@@ -28,18 +28,15 @@ export default function Paintings () {
         }
         painting.flipped = false
         painting.disabled = false
-        result.push(painting)
-        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
-        var paintingCopy = Object.assign({}, painting)
-        paintingCopy.id = painting.id + '-copy'
-        result.push(paintingCopy)
+        if (result.length < 20) {
+          result.push(painting)
+          // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+          var paintingCopy = Object.assign({}, painting)
+          paintingCopy.id = painting.id + '-copy'
+          result.push(paintingCopy)
+        }
       }
     }
-
-    //result = result[]
-    // var resultCopy = [...result]
-    //  resultCopy.forEach(painting => painting.id + '-copy')
-    //  result.push(...resultCopy)
     shuffleArray(result)
   }
 
@@ -60,9 +57,9 @@ export default function Paintings () {
     // logic --> check if there is an active card
     // if yes, check if the newly selected card id matches the new card id
     // if yes, set the card class to
-    if (painting.disabled) return
+    // if (painting.disabled) return
 
-    painting.flipped = true
+    // painting.flipped = true
 
     if (!activeCard) {
       // painting.flipped = true
@@ -70,26 +67,41 @@ export default function Paintings () {
     }
 
     if (activeCard) {
-      const activeIndex = activeCard.id.indexOf('-')
-      const paintingIndex = painting.id.indexOf('-')
-      if (activeIndex > 0 && paintingIndex > 0) {
-        activeCard.flipped = false
-        painting.flipped = false
-        setActiveCard(undefined)
-      }
+      console.log(painting.id, activeCard.id)
       if (
-        activeCard.id.includes(painting) ||
-        painting.id.includes(activeCard)
+        (activeCard.id.includes('copy') && painting.id.includes('copy')) ||
+        (!activeCard.id.includes('copy') && !painting.id.includes('copy'))
       ) {
-        activeCard.flipped = false
-        painting.flipped = false
-        setActiveCard(undefined)
-      } else {
-        activeCard.flipped = false
-        activeCard.disabled = true
-        painting.disabled = true
-        setActiveCard(undefined)
+        console.log(painting.id, activeCard.id)
+        window.alert('no match!')
       }
+      console.log(activeCard.id.includes(painting))
+      console.log(painting.id.includes(activeCard))
+      // if (activeCard.id.includes(painting) || painting.id.includes(activeCard))
+      //   window.alert('match?')
+
+      // const activeIndex = activeCard.id.indexOf('-')
+      // const paintingIndex = painting.id.indexOf('-')
+      // console.log('activeIndex, paintingIndex', activeIndex, paintingIndex)
+      // if (activeIndex < 0 && paintingIndex < 0) {
+      //   activeCard.flipped = false
+      //   painting.flipped = false
+      //   window.alert('no match')
+      //   setActiveCard(undefined)
+      // }
+      // if (
+      //   activeCard.id.includes(painting) ||
+      //   painting.id.includes(activeCard)
+      // ) {
+      //   activeCard.flipped = false
+      //   painting.flipped = false
+      //   setActiveCard(undefined)
+      // } else {
+      //   activeCard.flipped = false
+      //   activeCard.disabled = true
+      //   painting.disabled = true
+      //   setActiveCard(undefined)
+      // }
     }
   }
   // }
