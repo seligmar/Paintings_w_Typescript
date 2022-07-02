@@ -6,7 +6,7 @@ import './Painting.css'
 export default function Paintings () {
   const [allPaintings, setPaintings] = useState<any[]>([])
   const [paintingsToPlay, setPaintingsToPlay] = useState<any[]>([])
-  const [activeCard, setActiveCard] = useState<any>()
+  const [activeCard, setActiveCard] = useState<any>(undefined)
 
   var importedPaintings: any[] = paintings
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function Paintings () {
     if (!arr[0]) return
     var result: any[] = []
     const len = allPaintings.length
-    let i = 0
+    // const i = 0
     buildPaintingList(result, len, 0)
     function buildPaintingList (result: any[], len: number, i: number) {
       for (i; i < 10; i++) {
@@ -29,10 +29,17 @@ export default function Paintings () {
         painting.flipped = false
         painting.disabled = false
         result.push(painting)
+        // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+        var paintingCopy = Object.assign({}, painting)
+        paintingCopy.id = painting.id + '-copy'
+        result.push(paintingCopy)
       }
     }
-    var resultCopy = result
-    result.push(...resultCopy)
+
+    //result = result[]
+    // var resultCopy = [...result]
+    //  resultCopy.forEach(painting => painting.id + '-copy')
+    //  result.push(...resultCopy)
     shuffleArray(result)
   }
 
@@ -63,8 +70,17 @@ export default function Paintings () {
     }
 
     if (activeCard) {
-      if (activeCard.id !== painting.id) {
-        window.alert('no match!')
+      const activeIndex = activeCard.id.indexOf('-')
+      const paintingIndex = painting.id.indexOf('-')
+      if (activeIndex > 0 && paintingIndex > 0) {
+        activeCard.flipped = false
+        painting.flipped = false
+        setActiveCard(undefined)
+      }
+      if (
+        activeCard.id.includes(painting) ||
+        painting.id.includes(activeCard)
+      ) {
         activeCard.flipped = false
         painting.flipped = false
         setActiveCard(undefined)
@@ -75,14 +91,10 @@ export default function Paintings () {
         setActiveCard(undefined)
       }
     }
-    // else {
-
-    // }
   }
+  // }
 
   if (paintingsToPlay.length < 1) getRandom(allPaintings)
-
-  console.log('active', activeCard)
 
   return (
     <div className='flex-container '>
@@ -90,13 +102,13 @@ export default function Paintings () {
         <div
           key={Math.random()}
           className='card-container'
-          onClick={(e: any) => setCard(e, painting)}
+          // onClick={(e: any) => setCard(e, painting)}
         >
           <PaintingCard
             painting={painting}
             // activeCard={activeCard}
             setCard={setCard}
-            // key={painting.id + Math.floor(Math.random() * (2 + 1))}
+            key={painting.id + Math.random()}
           />
         </div>
       ))}
