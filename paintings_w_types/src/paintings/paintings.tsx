@@ -60,7 +60,7 @@ export default function Paintings () {
     // if (painting.disabled) return
 
     //  console.log('painting?', painting)
-    return
+    // return
     if (!activeCard) {
       // painting.flipped = true
       setActiveCard(painting)
@@ -87,7 +87,7 @@ export default function Paintings () {
       } else {
         activeCard.flipped = false
         painting.flipped = false
-        window.alert('no match')
+        //  window.alert('no match')
         setActiveCard(undefined)
         //   activeCard.flipped = false
         //   activeCard.disabled = true

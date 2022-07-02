@@ -3,6 +3,7 @@ import images from '../images.png'
 
 export default function PaintingCard (props: any) {
   var paintingForCard = props.painting
+
   const [flipped, setFlipped] = useState(paintingForCard.flipped)
 
   function updateFlipped (e: any, painting: any) {
@@ -12,10 +13,12 @@ export default function PaintingCard (props: any) {
     painting.flipped = !painting.flipped
     // window.alert(painting.flipped)
     setFlipped(!flipped)
-    props.setCard(e, paintingForCard)
+    setTimeout(function () {
+      props.setCard(e, paintingForCard)
+    }, 2500)
   }
 
-  // console.log('paintingForCard', paintingForCard)
+  console.log('paintingForCard', paintingForCard)
 
   return (
     // <div>
