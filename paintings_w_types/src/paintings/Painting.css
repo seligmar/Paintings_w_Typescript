@@ -36,3 +36,17 @@
   min-width: 100%;
   min-height: 100%;
 }
+
+.flipped {
+  transform: rotateY(180deg);
+  transition: transform 3s;
+  /* 0.8s; */
+  transform-style: preserve-3d;
+}
+
+.not-flipped {
+  transition: transform 3s;
+
+  /* transform: rotateY(180deg);
+  transform-style: preserve-3d; */
+}

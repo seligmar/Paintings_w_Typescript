@@ -6,17 +6,25 @@ export default function PaintingCard (props: any) {
   const [flipped, setFlipped] = useState(paintingForCard.flipped)
 
   function updateFlipped (e: any, painting: any) {
+    //  window.alert('click!')
     if (painting.disabled) return
-    setFlipped(!flipped)
+
     painting.flipped = !painting.flipped
+    // window.alert(painting.flipped)
+    setFlipped(!flipped)
     props.setCard(e, paintingForCard)
   }
+
+  // console.log('paintingForCard', paintingForCard)
 
   return (
     // <div>
     <>
       {paintingForCard.disabled ? null : (
-        <div onClick={(e: any) => updateFlipped(e, paintingForCard)}>
+        <div
+          className={paintingForCard.flipped ? 'flipped' : 'not-flipped'}
+          onClick={(e: any) => updateFlipped(e, paintingForCard)}
+        >
           {/* <img src={imagages} /> this works */}
           <div className='card-image' id={paintingForCard.id}>
             <img
