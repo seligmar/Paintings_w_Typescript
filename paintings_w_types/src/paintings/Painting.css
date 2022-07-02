@@ -25,9 +25,9 @@
 } */
 
 .card-image {
-  display: flex;
+  /*display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   overflow: hidden;
 }
 
@@ -35,4 +35,18 @@
   flex-shrink: 0;
   min-width: 100%;
   min-height: 100%;
+}
+
+/* https://www.w3schools.com/howto/howto_css_flip_card.asp */
+.flipped {
+  transform: rotateY(180deg);
+  transition: transform 3s;
+  transform-style: preserve-3d;
+}
+
+.not-flipped {
+  transition: transform 3s;
+  transform-style: preserve-3d;
+  /* transform: rotateY(180deg);
+  transform-style: preserve-3d; */
 }

@@ -1,26 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 import images from '../images.png'
 
-export default function PaintingCard (
-  props: any
-  // activeCard: string,
-  // setCard: any //MouseEventHandler<any> //| undefined
-) {
+export default function PaintingCard (props: any) {
   var paintingForCard = props.painting
+
+  const [flipped, setFlipped] = useState(paintingForCard.flipped)
+
+  function updateFlipped (e: any, painting: any) {
+    //  window.alert('click!')
+    if (painting.disabled) return
+
+    painting.flipped = !painting.flipped
+    // window.alert(painting.flipped)
+    setFlipped(!flipped)
+    setTimeout(function () {
+      props.setCard(e, paintingForCard)
+    }, 2500)
+  }
+
+  console.log('paintingForCard', paintingForCard)
 
   return (
     // <div>
-    <div onClick={(e: any) => props.setCard(e, paintingForCard)}>
-      {/* <img src={imagages} /> this works */}
-      <div className='card-image' id={paintingForCard.id}>
-        <img src={paintingForCard.flipped ? paintingForCard.image : images} />
-      </div>
-      {/* <p>Artist: {paintingForCard.artist.name}</p>
+    <>
+      {paintingForCard.disabled ? null : (
+        <div
+          className={paintingForCard.flipped ? 'flipped' : 'not-flipped'}
+          onClick={(e: any) => updateFlipped(e, paintingForCard)}
+        >
+          {/* <img src={imagages} /> this works */}
+          <div className='card-image' id={paintingForCard.id}>
+            <img
+              src={paintingForCard.flipped ? paintingForCard.image : images}
+            />
+          </div>
+          {/* <p>Artist: {paintingForCard.artist.name}</p>
       <p>
         Title: <i>{paintingForCard.title}</i>
       </p>
       <p>Date: {paintingForCard.date}</p> */}
-    </div>
+        </div>
+      )}
+    </>
     // </div>
   )
 }
