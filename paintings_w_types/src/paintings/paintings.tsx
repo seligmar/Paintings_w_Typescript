@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import paintings from '../paintings'
 import PaintingCard from './PaintingCard'
 import './Painting.css'
+import Button from '../Button'
 
 export default function Paintings () {
   const [allPaintings, setPaintings] = useState<any[]>([])
@@ -94,7 +95,9 @@ export default function Paintings () {
         //activeCard.flipped = false
         activeCard.disabled = true
         painting.disabled = true
+        console.log(activeCard.disabled, painting.disabled)
         paintingsToPlay.map(painting => (painting.flipped = false))
+        setPaintingsToPlay([...paintingsToPlay])
         setActiveCard(undefined)
       } else {
         //  activeCard.flipped = false
@@ -102,6 +105,8 @@ export default function Paintings () {
         //  window.alert('no match')
         setActiveCard(undefined)
         paintingsToPlay.map(painting => (painting.flipped = false))
+        setPaintingsToPlay([...paintingsToPlay])
+
         //   activeCard.flipped = false
         //   activeCard.disabled = true
         //   painting.disabled = true
@@ -156,6 +161,7 @@ export default function Paintings () {
           />
         </div>
       ))}
+      <Button getRandom={getRandom} allPaintings={allPaintings} />
     </div>
   )
 }
