@@ -20,7 +20,6 @@ export default function Paintings () {
     // const i = 0
     buildPaintingList(result, len, 0)
     function buildPaintingList (result: any[], len: number, i: number) {
-      console.log('i', i)
       while (i < 10) {
         var x = Math.floor(Math.random() * len)
         // console.log('x?', x)
@@ -55,16 +54,24 @@ export default function Paintings () {
     setPaintingsToPlay(array)
   }
 
+  console.log('activeCard at the top', activeCard?.title)
+
   function setCard (painting: any) {
     // logic --> check if there is an active card
     // if yes, check if the newly selected card id matches the new card id
     // if yes, set the card class to
     // if (painting.disabled) return
 
-    //  console.log('painting?', painting)
+    console.log('activeCard?', activeCard)
+
     if (!activeCard) {
       // painting.flipped = true
       setActiveCard(painting)
+      var filteredPaintings = paintingsToPlay.filter(
+        paintings => paintings.id !== painting.id
+      )
+      filteredPaintings.map(painting => (painting.flipped = false))
+      return
     }
 
     if (activeCard) {
@@ -87,12 +94,14 @@ export default function Paintings () {
         //activeCard.flipped = false
         activeCard.disabled = true
         painting.disabled = true
+        paintingsToPlay.map(painting => (painting.flipped = false))
         setActiveCard(undefined)
       } else {
-        activeCard.flipped = false
-        painting.flipped = false
+        //  activeCard.flipped = false
+        // painting.flipped = false
         //  window.alert('no match')
         setActiveCard(undefined)
+        paintingsToPlay.map(painting => (painting.flipped = false))
         //   activeCard.flipped = false
         //   activeCard.disabled = true
         //   painting.disabled = true
