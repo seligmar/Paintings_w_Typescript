@@ -3,27 +3,26 @@ import images from '../images.png'
 
 export default function PaintingCard (props: any) {
   var paintingForCard = props.painting
-
   const [flipped, setFlipped] = useState(paintingForCard.flipped)
 
   function updateFlipped (e: any, painting: any) {
-    //  window.alert('click!')
+    e.preventDefault()
     if (painting.disabled) return
 
     painting.flipped = !painting.flipped
     // window.alert(painting.flipped)
     setFlipped(!flipped)
     setTimeout(function () {
-      props.setCard(e, paintingForCard)
+      props.setCard(paintingForCard)
     }, 2500)
   }
-
-  console.log('paintingForCard', paintingForCard)
 
   return (
     // <div>
     <>
-      {paintingForCard.disabled ? null : (
+      {paintingForCard.disabled ? (
+        <div className='card-image flipped off-board'></div>
+      ) : (
         <div
           className={paintingForCard.flipped ? 'flipped' : 'not-flipped'}
           onClick={(e: any) => updateFlipped(e, paintingForCard)}
