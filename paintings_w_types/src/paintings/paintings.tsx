@@ -20,15 +20,18 @@ export default function Paintings () {
     // const i = 0
     buildPaintingList(result, len, 0)
     function buildPaintingList (result: any[], len: number, i: number) {
-      for (i; i < 10; i++) {
+      console.log('i', i)
+      while (i < 10) {
         var x = Math.floor(Math.random() * len)
+        // console.log('x?', x)
         var painting = allPaintings[x]
+        i++
         if (result.includes(painting) && i < 10) {
-          buildPaintingList(result, len, i)
-        }
-        painting.flipped = false
-        painting.disabled = false
-        if (result.length < 20) {
+          buildPaintingList(result, len, i - 1)
+        } else if (result.length < 20) {
+          painting.flipped = false
+          painting.disabled = false
+          //   if (result.length < 20) {
           result.push(painting)
           // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
           var paintingCopy = Object.assign({}, painting)
@@ -52,21 +55,21 @@ export default function Paintings () {
     setPaintingsToPlay(array)
   }
 
-  function setCard (e: any, painting: any) {
-    e.preventDefault()
+  function setCard (painting: any) {
     // logic --> check if there is an active card
     // if yes, check if the newly selected card id matches the new card id
     // if yes, set the card class to
     // if (painting.disabled) return
 
     //  console.log('painting?', painting)
-    // return
     if (!activeCard) {
       // painting.flipped = true
       setActiveCard(painting)
     }
 
     if (activeCard) {
+      console.log(' painting.id', painting.id)
+      console.log('activeCard.id', activeCard.id)
       // if (
       //   (activeCard.id.includes('copy') && painting.id.includes('copy')) ||
       //   (!activeCard.id.includes('copy') && !painting.id.includes('copy'))
@@ -80,6 +83,7 @@ export default function Paintings () {
         painting.id.includes(activeCard.id) ||
         activeCard.id.includes(painting.id)
       ) {
+        window.alert('match!')
         //activeCard.flipped = false
         activeCard.disabled = true
         painting.disabled = true
