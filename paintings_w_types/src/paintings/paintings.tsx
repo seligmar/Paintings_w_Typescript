@@ -10,28 +10,29 @@ export default function Paintings () {
   const [activeCard, setActiveCard] = useState<any>(undefined)
 
   var importedPaintings: any[] = paintings
+
   useEffect(() => {
     setPaintings(importedPaintings)
-  })
+  }, [])
 
-  function getRandom (arr: string | any[]) {
-    if (!arr[0]) return
+  function getRandom () {
+    if (allPaintings.length === 0) return
+    console.log(allPaintings)
     var result: any[] = []
     const len = allPaintings.length
-    // const i = 0
     buildPaintingList(result, len, 0)
     function buildPaintingList (result: any[], len: number, i: number) {
       while (i < 10) {
         var x = Math.floor(Math.random() * len)
-        // console.log('x?', x)
         var painting = allPaintings[x]
         i++
         if (result.includes(painting) && i < 10) {
           buildPaintingList(result, len, i - 1)
         } else if (result.length < 20) {
+          // the while loop was sometimes yielding extra results; added extra check above
+          console.log('painting?', painting)
           painting.flipped = false
           painting.disabled = false
-          //   if (result.length < 20) {
           result.push(painting)
           // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
           var paintingCopy = Object.assign({}, painting)
@@ -55,29 +56,24 @@ export default function Paintings () {
     setPaintingsToPlay(array)
   }
 
-  console.log('activeCard at the top', activeCard?.title)
-
   function setCard (painting: any) {
     // logic --> check if there is an active card
     // if yes, check if the newly selected card id matches the new card id
     // if yes, set the card class to
     // if (painting.disabled) return
 
-    console.log('activeCard?', activeCard)
-
     if (!activeCard) {
-      // painting.flipped = true
       setActiveCard(painting)
       var filteredPaintings = paintingsToPlay.filter(
-        paintings => paintings.id !== painting.id
+        unselectedPainting => unselectedPainting.id !== painting.id
       )
       filteredPaintings.map(painting => (painting.flipped = false))
       return
     }
 
     if (activeCard) {
-      console.log(' painting.id', painting.id)
-      console.log('activeCard.id', activeCard.id)
+      // console.log(' painting.id', painting.id)
+      //  console.log('activeCard.id', activeCard.id)
       // if (
       //   (activeCard.id.includes('copy') && painting.id.includes('copy')) ||
       //   (!activeCard.id.includes('copy') && !painting.id.includes('copy'))
@@ -91,11 +87,11 @@ export default function Paintings () {
         painting.id.includes(activeCard.id) ||
         activeCard.id.includes(painting.id)
       ) {
-        window.alert('match!')
-        //activeCard.flipped = false
+        // window.alert('match!')
         activeCard.disabled = true
         painting.disabled = true
         console.log(activeCard.disabled, painting.disabled)
+        // force all cards to flip
         paintingsToPlay.map(painting => (painting.flipped = false))
         setPaintingsToPlay([...paintingsToPlay])
         setActiveCard(undefined)
@@ -104,6 +100,7 @@ export default function Paintings () {
         // painting.flipped = false
         //  window.alert('no match')
         setActiveCard(undefined)
+        // force all cards to flip
         paintingsToPlay.map(painting => (painting.flipped = false))
         setPaintingsToPlay([...paintingsToPlay])
 
@@ -141,27 +138,25 @@ export default function Paintings () {
       // }
     }
   }
-  // }
 
-  if (paintingsToPlay.length < 1) getRandom(allPaintings)
+  // start off game by getting random paintings from array
+  if (paintingsToPlay.length < 1) getRandom()
 
   return (
     <div className='flex-container '>
       {paintingsToPlay.map(painting => (
-        <div
-          key={Math.random()}
-          className='card-container'
-          // onClick={(e: any) => setCard(e, painting)}
-        >
+        <div key={Math.random()} className='card-container'>
           <PaintingCard
             painting={painting}
-            // activeCard={activeCard}
             setCard={setCard}
             key={painting.id + Math.random()}
           />
         </div>
       ))}
-      <Button getRandom={getRandom} allPaintings={allPaintings} />
+      <Button
+        getRandom={getRandom}
+        // allPaintings={allPaintings}
+      />
     </div>
   )
 }
